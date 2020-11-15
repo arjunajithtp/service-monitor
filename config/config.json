@@ -1,0 +1,17 @@
+{
+    "port": "8080",
+    "monitoringIntervalInSec": 60,
+    "services": [
+        "www.google.com",
+        "www.youtube.com",
+        "www.facebook.com",
+        "www.baidu.com",
+        "www.wikipedia.org",
+        "www.yahoo.com",
+        "www.tmall.com",
+        "www.amazon.com",
+        "www.twitter.com",
+        "www.live.com",
+        "www.instagram.com"
+    ]
+}
