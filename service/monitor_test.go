@@ -1,6 +1,7 @@
 package service
 
 import (
+	"github.com/arjunajithtp/service-monitor/model"
 	"net/http"
 	"testing"
 	"time"
@@ -15,11 +16,12 @@ func (i *mockInfo) contactService() (*http.Response, error) {
 	return nil, nil
 }
 
-func (i *mockInfo) saveToDB(data string) error {
+func (i *mockInfo) saveToDB(data model.Info) error {
 	return nil
 }
 
 func TestMonitor(t *testing.T) {
+	monitorChan := make(chan ExecStatus)
 	info := mockInfo{}
 	type args struct {
 		info connector
@@ -37,7 +39,7 @@ func TestMonitor(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			Monitor(tt.args.info)
+			Monitor(tt.args.info, monitorChan)
 		})
 	}
 }

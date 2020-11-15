@@ -1,17 +1,22 @@
 {
     "port": "8080",
-    "monitoringIntervalInSec": 60,
+    "monitoringIntervalInMin": 1,
+    "dbHost": "localhost",
+    "dbPort": "5432",
+    "dbName": "service-monitor",
+    "dbUserName": "postgres",
+    "dbPassword": "admin",
     "services": [
-        "www.google.com",
-        "www.youtube.com",
-        "www.facebook.com",
-        "www.baidu.com",
-        "www.wikipedia.org",
-        "www.yahoo.com",
-        "www.tmall.com",
-        "www.amazon.com",
-        "www.twitter.com",
-        "www.live.com",
-        "www.instagram.com"
+        "google.com",
+        "instagram.com",
+        "youtube.com",
+        "facebook.com",
+        "baidu.com",
+        "wikipedia.org",
+        "yahoo.com",
+        "tmall.com",
+        "amazon.com",
+        "twitter.com",
+        "live.com"
     ]
 }
