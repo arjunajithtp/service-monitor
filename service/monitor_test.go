@@ -3,9 +3,13 @@ package service
 import (
 	"net/http"
 	"testing"
+	"time"
 )
 
-type mockInfo struct{}
+type mockInfo struct {
+	Time time.Time
+	URL  string
+}
 
 func (i *mockInfo) contactService() (*http.Response, error) {
 	return nil, nil

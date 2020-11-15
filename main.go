@@ -28,7 +28,6 @@ func main() {
 	}()
 
 	app := newApp()
-
 	app.Run(iris.Addr(":"+config.Data.Port), iris.WithoutServerError(iris.ErrServerClosed))
 }
 
