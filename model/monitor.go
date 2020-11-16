@@ -70,7 +70,7 @@ func (i *Info) Save() error {
 	return nil
 }
 
-// GetByDate takes 'from' and 'to' dates, and collect the matching data from the DB
+// GetByDate takes 'from', 'to' dates and status, and collect the matching data from the DB
 func GetByDate(from, to, status string) (map[string][]string, error) {
 	db, err := sql.Open("postgres", dbDNS)
 	if err != nil {
@@ -83,4 +83,18 @@ func GetByDate(from, to, status string) (map[string][]string, error) {
 		return nil, fmt.Errorf("failed to get data from DB: %v", err)
 	}
 	return extractStatusData(rows, status)
+}
+
+// GetByTimeTaken takes 'from', 'to' dates and timeTaken, and collect the matching data from the DB
+func GetByTimeTaken(from, to, timeTaken string) (map[string][]string, error) {
+	db, err := sql.Open("postgres", dbDNS)
+	if err != nil {
+		return nil, fmt.Errorf("failed to open a DB connection: %v", err)
+	}
+	defer db.Close()
+	rows, err := db.Query(fmt.Sprintf("select TIME_OF_EXEC,RESPONSE_TIME from monitor where TIME_OF_EXEC between '%s' and '%s'", from, to))
+	if err != nil {
+		return nil, fmt.Errorf("failed to get data from DB: %v", err)
+	}
+	return extractTimeData(rows, timeTaken)
 }

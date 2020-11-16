@@ -31,7 +31,25 @@ func (c *Connector) GetWithDate(ctx iris.Context) {
 		ctx.WriteString("status can only be available or unavailable")
 		return
 	}
-	data, err := c.getByDate(from, to, status)
+
+	timeTaken := ctx.URLParam("timeTaken")
+	if timeTaken != "" && (timeTaken != "less" && timeTaken != "greater") {
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.WriteString("status can only be greater or less")
+		return
+	}
+
+	if timeTaken != "" || status == "" {
+		status = "available"
+	}
+	data := make(map[string][]string)
+	var err error
+	if timeTaken == "" {
+		data, err = c.getByDate(from, to, status)
+	} else {
+		data, err = c.getByTimeTaken(from, to, timeTaken)
+	}
+
 	if err != nil {
 		ctx.StatusCode(http.StatusNotFound)
 		ctx.WriteString(err.Error())
