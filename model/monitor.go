@@ -39,7 +39,7 @@ func SetupDB() error {
 	defer db.Close()
 
 	query := `CREATE TABLE IF NOT EXISTS MONITOR (
-		TIME_OF_EXEC TIMESTAMPTZ PRIMARY KEY,
+		TIME_OF_EXEC TIMESTAMP PRIMARY KEY,
 		RESPONSE_TIME JSONB,
 		UNAVAILABLE_SERVICES TEXT []
 	)`
@@ -68,4 +68,15 @@ func (i *Info) Save() error {
 		return err
 	}
 	return nil
+}
+
+// GetByDate takes 'from' and 'to' dates, and collect the matching data from the DB
+func GetByDate(from, to string) (*sql.Rows, error) {
+	db, err := sql.Open("postgres", dbDNS)
+	if err != nil {
+		return nil, fmt.Errorf("failed to open a DB connection: %v", err)
+	}
+	defer db.Close()
+
+	return db.Query(fmt.Sprintf("select * from monitor where TIME_OF_EXEC between '%s' and '%s'", from, to))
 }

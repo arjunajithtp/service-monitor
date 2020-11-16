@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/arjunajithtp/service-monitor/config"
+	"github.com/arjunajithtp/service-monitor/handler"
 	"github.com/arjunajithtp/service-monitor/model"
 	"github.com/arjunajithtp/service-monitor/service"
 	"github.com/kataras/iris/v12"
@@ -15,8 +16,9 @@ func init() {
 	if err := config.SetConfiguration(); err != nil {
 		log.Fatalf("error while trying to read the config file: %v", err)
 	}
-
-	model.SetupDB()
+	if err := model.SetupDB(); err != nil {
+		log.Fatalf("error while trying to setup DB: %v", err)
+	}
 }
 
 func main() {
@@ -28,13 +30,9 @@ func main() {
 
 func newApp() *iris.Application {
 	app := iris.New()
-	app.Get("/publish", handler)
+	app.Get("/get-status", handler.Handler)
 
 	return app
-}
-
-func handler(ctx iris.Context) {
-
 }
 
 func initiateMonitoring() {
