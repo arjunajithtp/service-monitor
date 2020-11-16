@@ -9,7 +9,6 @@ import (
 
 // Monitor will monitor the avialbility of the services provided in the config file
 func Monitor(c connector, monitorChan chan ExecStatus) {
-	//var execStatus ExecStatus
 	infoMap := make(map[string]string)
 	infoBytes, err := json.Marshal(c)
 	if err != nil {
