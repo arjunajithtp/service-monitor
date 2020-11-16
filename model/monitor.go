@@ -71,12 +71,16 @@ func (i *Info) Save() error {
 }
 
 // GetByDate takes 'from' and 'to' dates, and collect the matching data from the DB
-func GetByDate(from, to string) (*sql.Rows, error) {
+func GetByDate(from, to, status string) (map[string][]string, error) {
 	db, err := sql.Open("postgres", dbDNS)
 	if err != nil {
 		return nil, fmt.Errorf("failed to open a DB connection: %v", err)
 	}
 	defer db.Close()
 
-	return db.Query(fmt.Sprintf("select * from monitor where TIME_OF_EXEC between '%s' and '%s'", from, to))
+	rows, err := db.Query(fmt.Sprintf("select * from monitor where TIME_OF_EXEC between '%s' and '%s'", from, to))
+	if err != nil {
+		return nil, fmt.Errorf("failed to get data from DB: %v", err)
+	}
+	return extractStatusData(rows, status)
 }

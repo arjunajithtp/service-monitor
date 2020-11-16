@@ -29,8 +29,9 @@ func main() {
 }
 
 func newApp() *iris.Application {
+	c := handler.GetConnector()
 	app := iris.New()
-	app.Get("/get-status", handler.Handler)
+	app.Get("/get-status", c.GetWithDate)
 
 	return app
 }

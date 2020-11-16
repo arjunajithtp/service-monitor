@@ -11,9 +11,6 @@ type connector interface {
 	saveToDB(model.Info) error
 }
 
-// MonitorChan is for bring back the response details
-// var MonitorChan chan ExecStatus
-
 // Info holds the information required for contacting the service
 type Info struct {
 	URL string
